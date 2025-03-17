@@ -33,6 +33,10 @@ export function Post({ author, publishedAt, content }) {
 
         setNewComment('')
     }
+
+    function deleteComment(comment) {
+
+    }
     
     return (
         <article className={styles.post}>
@@ -87,7 +91,10 @@ export function Post({ author, publishedAt, content }) {
 
             <div className={styles.commentList}>
                 {comments.map((comment) => {
-                 return <Comment key={comment} content={comment} />
+                    return <Comment
+                        key={comment}
+                        content={comment}
+                        onDeleteComment={deleteComment} />
              })}
             </div>
         </article>
