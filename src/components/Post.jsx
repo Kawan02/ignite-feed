@@ -23,6 +23,7 @@ export function Post({ author, publishedAt, content }) {
     })
 
     function handleCreateNewCommentChange(event) {
+        event.target.setCustomValidity("");
         setNewComment(event.target.value)
     }
 
@@ -38,7 +39,13 @@ export function Post({ author, publishedAt, content }) {
         const commentsWithoutDeletedOne = comments.filter((comment) => comment !== commentToDelete)
         setComments(commentsWithoutDeletedOne)
     }
+
+    function handleNewCommentInvalid() {
+        event.target.setCustomValidity("Esse campo é obrigatório!");
+    }
     
+    const isNewCommentEmpty = newComment.length === 0
+
     return (
         <article className={styles.post}>
             <header>
@@ -63,17 +70,6 @@ export function Post({ author, publishedAt, content }) {
                         return <p key={line.content}><a href="#">{line.content}</a></p>
                     }
                 })}
-                {/* <p>Fala galeraa 👋</p>
-
-                <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀</p>
-
-                <p>👉{' '}<a href="#">jane.design/doctorcare</a></p>
-
-                <p>
-                    <a href="">#novoprojeto</a>{' '}
-                    <a href="">#nlw</a>{' '}
-                    <a href="">#rocketseat</a>
-                </p> */}
             </div>
 
             <form className={styles.commentForm} onSubmit={handleCreateNewComment}>
@@ -84,9 +80,11 @@ export function Post({ author, publishedAt, content }) {
                     name='comment'
                     value={newComment}
                     onChange={handleCreateNewCommentChange}
+                    onInvalid={handleNewCommentInvalid}
+                    required
                 />
                 <footer>
-                    <button type='submit'>Publicar</button>
+                    <button type='submit' disabled={isNewCommentEmpty}>Publicar</button>
                 </footer>
             </form>
 
